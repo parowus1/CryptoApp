@@ -1,6 +1,4 @@
-# CryptoApp
-
-# Changelog Aplikacji Kryptograficznej
+# Changelog Aplikacji Kryptograficznej 
 
 ## [1.0.0] - 2025-10-12
 ### Dodane
@@ -9,3 +7,23 @@
 - **Implementacja Szyfru Cezara:** Dodano klasę `CaesarCipher` do szyfrowania/deszyfrowania tekstu i plików.
 - Funkcjonalność szyfrowania i deszyfrowania tekstu z wykorzystaniem klucza.
 - Funkcjonalność szyfrowania i deszyfrowania plików.
+
+## [1.1.0] - 2025-10-20
+### Dodane
+Nowe Algorytmy Kryptograficzne:
+- Wprowadzono klasę `VigenereCipher` (Szyfr Vigenère'a), jako drugi algorytm implementujący interfejs ICipher.
+- Szyfr Vigenère'a operuje na kluczu słownym (string) i jest kompatybilny z łacińskim alfabetem (A-Z).
+- Wprowadzono klasę `RunningKeyCipher` (Szyfr z Kluczem Bieżącym), jako trzeci algorytm implementujący interfejs ICipher.
+- Algorytm ten jest wariantem Szyfru Vigenère'a i wymaga, aby klucz był co najmniej tak długi jak czysty tekst (po odrzuceniu znaków niebędących literami).
+
+Dynamiczny Wybór Algorytmu (UI):
+- Dodano kontrolkę ComboBox (listę rozwijaną) do formularza MainForm.cs, umożliwiającą użytkownikowi przełączanie między zaimplementowanymi algorytmami (Cezar, Vigenère) w czasie rzeczywistym.
+- Zaimplementowano obsługę zdarzenia SelectedIndexChanged, która aktualizuje aktywnie używany obiekt _currentCipher.
+
+Wskazówki dla Klucza:
+- Dodano dynamiczną zmianę domyślnej wartości w polu klucza (txtKey) w zależności od wybranego algorytmu (np. '3' dla Cezara, 'SECRET' dla Vigenère'a, 'DŁUGI KLUCZ O DŁUGOŚCI WIADOMOŚCI' dla RunningKeyCipher).
+
+### Zmienione
+- Architektura MainForm.cs: Konstruktor został zmodyfikowany w celu inicjalizacji i powiązania listy algorytmów (_algorithms) z nową kontrolką cmbAlgorithms.
+- Logika Plikowa: Operacje na plikach (EncryptFileAsync, DecryptFileAsync) zostały zaktualizowane, aby dynamicznie wywoływać metody aktualnie wybranego szyfru (_currentCipher).
+- Wskazówki dla Klucza: Zaktualizowano metodę CmbAlgorithms_SelectedIndexChanged, aby dostosować sugerowany tekst klucza (txtKey.Text) dla Szyfru z Kluczem Bieżącym, informując użytkownika o wymaganym formacie.
