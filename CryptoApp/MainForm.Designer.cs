@@ -115,7 +115,7 @@
             // lblKey
             // 
             lblKey.AutoSize = true;
-            lblKey.Location = new Point(137, 162);
+            lblKey.Location = new Point(185, 162);
             lblKey.Name = "lblKey";
             lblKey.Size = new Size(41, 15);
             lblKey.TabIndex = 15;
@@ -123,7 +123,7 @@
             // 
             // txtKey
             // 
-            txtKey.Location = new Point(179, 159);
+            txtKey.Location = new Point(227, 159);
             txtKey.Name = "txtKey";
             txtKey.Size = new Size(73, 23);
             txtKey.TabIndex = 14;
@@ -131,7 +131,7 @@
             // 
             // btnDecryptText
             // 
-            btnDecryptText.Location = new Point(367, 155);
+            btnDecryptText.Location = new Point(415, 155);
             btnDecryptText.Name = "btnDecryptText";
             btnDecryptText.Size = new Size(105, 27);
             btnDecryptText.TabIndex = 13;
@@ -141,7 +141,7 @@
             // 
             // btnEncryptText
             // 
-            btnEncryptText.Location = new Point(257, 155);
+            btnEncryptText.Location = new Point(305, 155);
             btnEncryptText.Name = "btnEncryptText";
             btnEncryptText.Size = new Size(105, 27);
             btnEncryptText.TabIndex = 12;
@@ -154,7 +154,7 @@
             cmbAlgorithms.FormattingEnabled = true;
             cmbAlgorithms.Location = new Point(10, 159);
             cmbAlgorithms.Name = "cmbAlgorithms";
-            cmbAlgorithms.Size = new Size(121, 23);
+            cmbAlgorithms.Size = new Size(169, 23);
             cmbAlgorithms.TabIndex = 11;
             cmbAlgorithms.Tag = "lblCurrentCipher";
             cmbAlgorithms.Click += CmbAlgorithms_SelectedIndexChanged;

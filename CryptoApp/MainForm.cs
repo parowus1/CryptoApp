@@ -19,6 +19,7 @@ namespace CryptoApp
         {
             InitializeComponent();
 
+            _algorithms.Add(new RunningKeyCipher());
             _algorithms.Add(new VigenereCipher());
             _algorithms.Add(new CaesarCipher());
 
@@ -39,12 +40,13 @@ namespace CryptoApp
 
             if (txtKey != null)
             {
-                txtKey.Text = "SECRET";
+                txtKey.Text = "DŁUGI KLUCZ O DŁUGOŚCI WIADOMOŚCI";
             }
             if (lblCurrentCipher != null)
             {
                 lblCurrentCipher.Text = $"Aktywny Algorytm: {_currentCipher.Name}";
             }
+
         }
 
         // --- Metoda obsługująca zmianę wybranego algorytmu ---
@@ -71,6 +73,10 @@ namespace CryptoApp
                     else if (_currentCipher.Name.Contains("Vigenère'a"))
                     {
                         txtKey.Text = "SECRET";
+                    }
+                    else if (_currentCipher.Name.Contains("Bieżącym")) 
+                    {
+                        txtKey.Text = "DŁUGI KLUCZ O DŁUGOŚCI WIADOMOŚCI";
                     }
                 }
             }
