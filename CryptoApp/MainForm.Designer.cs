@@ -28,165 +28,175 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.txtPlainText = new System.Windows.Forms.TextBox();
-            this.txtCipherText = new System.Windows.Forms.TextBox();
-            this.btnEncryptText = new System.Windows.Forms.Button();
-            this.btnDecryptText = new System.Windows.Forms.Button();
-            this.lblPlainText = new System.Windows.Forms.Label();
-            this.lblCipherText = new System.Windows.Forms.Label();
-            this.lblKey = new System.Windows.Forms.Label();
-            this.txtKey = new System.Windows.Forms.TextBox();
-            this.btnEncryptFile = new System.Windows.Forms.Button();
-            this.btnDecryptFile = new System.Windows.Forms.Button();
-            this.lblFileStatus = new System.Windows.Forms.Label();
-            this.SuspendLayout();
+            txtPlainText = new TextBox();
+            txtCipherText = new TextBox();
+            lblPlainText = new Label();
+            lblCipherText = new Label();
+            btnEncryptFile = new Button();
+            btnDecryptFile = new Button();
+            lblFileStatus = new Label();
+            lblKey = new Label();
+            txtKey = new TextBox();
+            btnDecryptText = new Button();
+            btnEncryptText = new Button();
+            cmbAlgorithms = new ComboBox();
+            SuspendLayout();
             // 
             // txtPlainText
             // 
-            this.txtPlainText.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtPlainText.Location = new System.Drawing.Point(12, 38);
-            this.txtPlainText.Multiline = true;
-            this.txtPlainText.Name = "txtPlainText";
-            this.txtPlainText.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtPlainText.Size = new System.Drawing.Size(776, 120);
-            this.txtPlainText.TabIndex = 0;
+            txtPlainText.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            txtPlainText.Location = new Point(10, 36);
+            txtPlainText.Multiline = true;
+            txtPlainText.Name = "txtPlainText";
+            txtPlainText.ScrollBars = ScrollBars.Vertical;
+            txtPlainText.Size = new Size(680, 113);
+            txtPlainText.TabIndex = 0;
             // 
             // txtCipherText
             // 
-            this.txtCipherText.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-            | System.Windows.Forms.AnchorStyles.Left)
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtCipherText.Location = new System.Drawing.Point(12, 218);
-            this.txtCipherText.Multiline = true;
-            this.txtCipherText.Name = "txtCipherText";
-            this.txtCipherText.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtCipherText.Size = new System.Drawing.Size(776, 120);
-            this.txtCipherText.TabIndex = 1;
-            // 
-            // btnEncryptText
-            // 
-            this.btnEncryptText.Location = new System.Drawing.Point(232, 175);
-            this.btnEncryptText.Name = "btnEncryptText";
-            this.btnEncryptText.Size = new System.Drawing.Size(120, 29);
-            this.btnEncryptText.TabIndex = 2;
-            this.btnEncryptText.Text = "Szyfruj Tekst";
-            this.btnEncryptText.UseVisualStyleBackColor = true;
-            this.btnEncryptText.Click += new System.EventHandler(this.btnEncryptText_Click);
-            // 
-            // btnDecryptText
-            // 
-            this.btnDecryptText.Location = new System.Drawing.Point(358, 175);
-            this.btnDecryptText.Name = "btnDecryptText";
-            this.btnDecryptText.Size = new System.Drawing.Size(120, 29);
-            this.btnDecryptText.TabIndex = 3;
-            this.btnDecryptText.Text = "Deszyfruj Tekst";
-            this.btnDecryptText.UseVisualStyleBackColor = true;
-            this.btnDecryptText.Click += new System.EventHandler(this.btnDecryptText_Click);
+            txtCipherText.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            txtCipherText.Location = new Point(10, 204);
+            txtCipherText.Multiline = true;
+            txtCipherText.Name = "txtCipherText";
+            txtCipherText.ScrollBars = ScrollBars.Vertical;
+            txtCipherText.Size = new Size(680, 113);
+            txtCipherText.TabIndex = 1;
             // 
             // lblPlainText
             // 
-            this.lblPlainText.AutoSize = true;
-            this.lblPlainText.Location = new System.Drawing.Point(12, 18);
-            this.lblPlainText.Name = "lblPlainText";
-            this.lblPlainText.Size = new System.Drawing.Size(89, 17);
-            this.lblPlainText.TabIndex = 4;
-            this.lblPlainText.Text = "Tekst Jawny:";
+            lblPlainText.AutoSize = true;
+            lblPlainText.Location = new Point(10, 17);
+            lblPlainText.Name = "lblPlainText";
+            lblPlainText.Size = new Size(72, 15);
+            lblPlainText.TabIndex = 4;
+            lblPlainText.Text = "Tekst Jawny:";
             // 
             // lblCipherText
             // 
-            this.lblCipherText.AutoSize = true;
-            this.lblCipherText.Location = new System.Drawing.Point(12, 198);
-            this.lblCipherText.Name = "lblCipherText";
-            this.lblCipherText.Size = new System.Drawing.Size(139, 17);
-            this.lblCipherText.TabIndex = 5;
-            this.lblCipherText.Text = "Tekst Zaszyfrowany:";
-            // 
-            // lblKey
-            // 
-            this.lblKey.AutoSize = true;
-            this.lblKey.Location = new System.Drawing.Point(12, 182);
-            this.lblKey.Name = "lblKey";
-            this.lblKey.Size = new System.Drawing.Size(125, 17);
-            this.lblKey.TabIndex = 7;
-            this.lblKey.Text = "Klucz (Przesunięcie):";
-            // 
-            // txtKey
-            // 
-            this.txtKey.Location = new System.Drawing.Point(143, 179);
-            this.txtKey.Name = "txtKey";
-            this.txtKey.Size = new System.Drawing.Size(83, 22);
-            this.txtKey.TabIndex = 6;
-            this.txtKey.Text = "3"; // Domyślny klucz dla Cezara
+            lblCipherText.AutoSize = true;
+            lblCipherText.Location = new Point(10, 186);
+            lblCipherText.Name = "lblCipherText";
+            lblCipherText.Size = new Size(112, 15);
+            lblCipherText.TabIndex = 5;
+            lblCipherText.Text = "Tekst Zaszyfrowany:";
             // 
             // btnEncryptFile
             // 
-            this.btnEncryptFile.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnEncryptFile.Location = new System.Drawing.Point(12, 362);
-            this.btnEncryptFile.Name = "btnEncryptFile";
-            this.btnEncryptFile.Size = new System.Drawing.Size(120, 29);
-            this.btnEncryptFile.TabIndex = 8;
-            this.btnEncryptFile.Text = "Szyfruj Plik";
-            this.btnEncryptFile.UseVisualStyleBackColor = true;
-            this.btnEncryptFile.Click += new System.EventHandler(this.btnEncryptFile_Click);
+            btnEncryptFile.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
+            btnEncryptFile.Location = new Point(10, 339);
+            btnEncryptFile.Name = "btnEncryptFile";
+            btnEncryptFile.Size = new Size(105, 27);
+            btnEncryptFile.TabIndex = 8;
+            btnEncryptFile.Text = "Szyfruj Plik";
+            btnEncryptFile.UseVisualStyleBackColor = true;
+            btnEncryptFile.Click += btnEncryptFile_Click;
             // 
             // btnDecryptFile
             // 
-            this.btnDecryptFile.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnDecryptFile.Location = new System.Drawing.Point(138, 362);
-            this.btnDecryptFile.Name = "btnDecryptFile";
-            this.btnDecryptFile.Size = new System.Drawing.Size(120, 29);
-            this.btnDecryptFile.TabIndex = 9;
-            this.btnDecryptFile.Text = "Deszyfruj Plik";
-            this.btnDecryptFile.UseVisualStyleBackColor = true;
-            this.btnDecryptFile.Click += new System.EventHandler(this.btnDecryptFile_Click);
+            btnDecryptFile.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
+            btnDecryptFile.Location = new Point(121, 339);
+            btnDecryptFile.Name = "btnDecryptFile";
+            btnDecryptFile.Size = new Size(105, 27);
+            btnDecryptFile.TabIndex = 9;
+            btnDecryptFile.Text = "Deszyfruj Plik";
+            btnDecryptFile.UseVisualStyleBackColor = true;
+            btnDecryptFile.Click += btnDecryptFile_Click;
             // 
             // lblFileStatus
             // 
-            this.lblFileStatus.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.lblFileStatus.AutoSize = true;
-            this.lblFileStatus.Location = new System.Drawing.Point(270, 369);
-            this.lblFileStatus.Name = "lblFileStatus";
-            this.lblFileStatus.Size = new System.Drawing.Size(107, 17);
-            this.lblFileStatus.TabIndex = 10;
-            this.lblFileStatus.Text = "Status: Gotowy";
+            lblFileStatus.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
+            lblFileStatus.AutoSize = true;
+            lblFileStatus.Location = new Point(236, 346);
+            lblFileStatus.Name = "lblFileStatus";
+            lblFileStatus.Size = new Size(86, 15);
+            lblFileStatus.TabIndex = 10;
+            lblFileStatus.Text = "Status: Gotowy";
+            // 
+            // lblKey
+            // 
+            lblKey.AutoSize = true;
+            lblKey.Location = new Point(137, 162);
+            lblKey.Name = "lblKey";
+            lblKey.Size = new Size(41, 15);
+            lblKey.TabIndex = 15;
+            lblKey.Text = "Klucz: ";
+            // 
+            // txtKey
+            // 
+            txtKey.Location = new Point(179, 159);
+            txtKey.Name = "txtKey";
+            txtKey.Size = new Size(73, 23);
+            txtKey.TabIndex = 14;
+            txtKey.Text = "3";
+            // 
+            // btnDecryptText
+            // 
+            btnDecryptText.Location = new Point(367, 155);
+            btnDecryptText.Name = "btnDecryptText";
+            btnDecryptText.Size = new Size(105, 27);
+            btnDecryptText.TabIndex = 13;
+            btnDecryptText.Text = "Deszyfruj Tekst";
+            btnDecryptText.UseVisualStyleBackColor = true;
+            btnDecryptText.Click += btnDecryptText_Click;
+            // 
+            // btnEncryptText
+            // 
+            btnEncryptText.Location = new Point(257, 155);
+            btnEncryptText.Name = "btnEncryptText";
+            btnEncryptText.Size = new Size(105, 27);
+            btnEncryptText.TabIndex = 12;
+            btnEncryptText.Text = "Szyfruj Tekst";
+            btnEncryptText.UseVisualStyleBackColor = true;
+            btnEncryptText.Click += btnEncryptText_Click;
+            // 
+            // cmbAlgorithms
+            // 
+            cmbAlgorithms.FormattingEnabled = true;
+            cmbAlgorithms.Location = new Point(10, 159);
+            cmbAlgorithms.Name = "cmbAlgorithms";
+            cmbAlgorithms.Size = new Size(121, 23);
+            cmbAlgorithms.TabIndex = 11;
+            cmbAlgorithms.Tag = "lblCurrentCipher";
+            cmbAlgorithms.Click += CmbAlgorithms_SelectedIndexChanged;
             // 
             // MainForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 410);
-            this.Controls.Add(this.lblFileStatus);
-            this.Controls.Add(this.btnDecryptFile);
-            this.Controls.Add(this.btnEncryptFile);
-            this.Controls.Add(this.lblKey);
-            this.Controls.Add(this.txtKey);
-            this.Controls.Add(this.lblCipherText);
-            this.Controls.Add(this.lblPlainText);
-            this.Controls.Add(this.btnDecryptText);
-            this.Controls.Add(this.btnEncryptText);
-            this.Controls.Add(this.txtCipherText);
-            this.Controls.Add(this.txtPlainText);
-            this.MinimumSize = new System.Drawing.Size(650, 450);
-            this.Name = "MainForm";
-            this.Text = "Aplikacja Kryptograficzna - Szyfr Cezara";
-            this.ResumeLayout(false);
-            this.PerformLayout();
-
+            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleMode = AutoScaleMode.Font;
+            ClientSize = new Size(700, 385);
+            Controls.Add(lblKey);
+            Controls.Add(txtKey);
+            Controls.Add(btnDecryptText);
+            Controls.Add(btnEncryptText);
+            Controls.Add(cmbAlgorithms);
+            Controls.Add(lblFileStatus);
+            Controls.Add(btnDecryptFile);
+            Controls.Add(btnEncryptFile);
+            Controls.Add(lblCipherText);
+            Controls.Add(lblPlainText);
+            Controls.Add(txtCipherText);
+            Controls.Add(txtPlainText);
+            MinimumSize = new Size(571, 424);
+            Name = "MainForm";
+            Text = "Aplikacja Kryptograficzna";
+            ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
 
         private System.Windows.Forms.TextBox txtPlainText;
         private System.Windows.Forms.TextBox txtCipherText;
-        private System.Windows.Forms.Button btnEncryptText;
-        private System.Windows.Forms.Button btnDecryptText;
         private System.Windows.Forms.Label lblPlainText;
-        private System.Windows.Forms.Label lblCipherText;
-        private System.Windows.Forms.Label lblKey;
-        private System.Windows.Forms.TextBox txtKey;
+        private System.Windows.Forms.Label lblCipherText = null!;
         private System.Windows.Forms.Button btnEncryptFile;
         private System.Windows.Forms.Button btnDecryptFile;
         private System.Windows.Forms.Label lblFileStatus;
+        private Label lblKey;
+        private TextBox txtKey;
+        private Button btnDecryptText;
+        private Button btnEncryptText;
+        private Label lblCurrentCipher;
+        private ComboBox cmbAlgorithms;
     }
 }

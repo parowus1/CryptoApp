@@ -1,37 +1,82 @@
-using System;
+ï»¿using System;
 using System.Windows.Forms;
-using CryptoApp.Core; // Upewnij siê, ¿e masz to u¿ycie
+using CryptoApp.Core;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.IO;
+using System.Linq;
 
 namespace CryptoApp
 {
     public partial class MainForm : Form
     {
-        // Lista dostêpnych algorytmów (³atwe dodawanie nowych w przysz³oœci)
         private readonly List<ICipher> _algorithms = new List<ICipher>();
+        private ICipher? _currentCipher;
 
-        // Aktualnie wybrany algorytm
-        private ICipher _currentCipher;
+        public enum OperationMode { Encrypt, Decrypt }
 
         public MainForm()
         {
             InitializeComponent();
 
-            // 1. Inicjalizacja algorytmów
+            _algorithms.Add(new VigenereCipher());
             _algorithms.Add(new CaesarCipher());
 
-            // 2. Wybór domyœlnego algorytmu
-            _currentCipher = _algorithms[0];
+            if (cmbAlgorithms != null)
+            {
+                cmbAlgorithms.DataSource = _algorithms;
+                cmbAlgorithms.DisplayMember = "Name";
 
-            // 3. Konfiguracja ComboBox (jeœli dodasz wiêcej algorytmów)
-            // Przyk³ad dla przysz³oœci:
-            // cmbAlgorithms.DataSource = _algorithms;
-            // cmbAlgorithms.DisplayMember = "Name"; 
-            // cmbAlgorithms.SelectedIndexChanged += CmbAlgorithms_SelectedIndexChanged;
+                _currentCipher = _algorithms[0];
+                cmbAlgorithms.SelectedIndex = 0;
+
+                cmbAlgorithms.SelectedIndexChanged += CmbAlgorithms_SelectedIndexChanged;
+            }
+            else
+            {
+                MessageBox.Show("BÅ‚Ä…d: Nie znaleziono kontrolki cmbAlgorithms. SprawdÅº Projektanta.", "BÅ‚Ä…d Konfiguracji UI", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+            if (txtKey != null)
+            {
+                txtKey.Text = "SECRET";
+            }
+            if (lblCurrentCipher != null)
+            {
+                lblCurrentCipher.Text = $"Aktywny Algorytm: {_currentCipher.Name}";
+            }
         }
 
-        // --- Obs³uga szyfrowania/deszyfrowania tekstu ---
+        // --- Metoda obsÅ‚ugujÄ…ca zmianÄ™ wybranego algorytmu ---
+        private void CmbAlgorithms_SelectedIndexChanged(object? sender, EventArgs e)
+        {
+            ComboBox cmb = sender as ComboBox;
+
+            // Ustawienie _currentCipher na wybrany element
+            if (cmb.SelectedItem is ICipher selectedCipher)
+            {
+                _currentCipher = selectedCipher;
+
+                if (lblCurrentCipher != null)
+                {
+                    lblCurrentCipher.Text = $"Aktywny Algorytm: {_currentCipher.Name}";
+                }
+
+                if (txtKey != null)
+                {
+                    if (_currentCipher.Name.Contains("Cezara"))
+                    {
+                        txtKey.Text = "3";
+                    }
+                    else if (_currentCipher.Name.Contains("VigenÃ¨re'a"))
+                    {
+                        txtKey.Text = "SECRET";
+                    }
+                }
+            }
+        }
+
+        // --- ObsÅ‚uga szyfrowania/deszyfrowania tekstu ---
         private void btnEncryptText_Click(object sender, EventArgs e)
         {
             try
@@ -43,11 +88,11 @@ namespace CryptoApp
             }
             catch (ArgumentException ex)
             {
-                MessageBox.Show(ex.Message, "B³¹d klucza", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show(ex.Message, "BÅ‚Ä…d klucza", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Wyst¹pi³ b³¹d: {ex.Message}", "B³¹d", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"WystÄ…piÅ‚ bÅ‚Ä…d: {ex.Message}", "BÅ‚Ä…d", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -62,15 +107,15 @@ namespace CryptoApp
             }
             catch (ArgumentException ex)
             {
-                MessageBox.Show(ex.Message, "B³¹d klucza", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show(ex.Message, "BÅ‚Ä…d klucza", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Wyst¹pi³ b³¹d: {ex.Message}", "B³¹d", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"WystÄ…piÅ‚ bÅ‚Ä…d: {ex.Message}", "BÅ‚Ä…d", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
-        // --- Obs³uga szyfrowania/deszyfrowania plików ---
+        // --- ObsÅ‚uga szyfrowania/deszyfrowania plikÃ³w ---
         private async void btnEncryptFile_Click(object sender, EventArgs e)
         {
             await ProcessFileAsync(OperationMode.Encrypt);
@@ -88,10 +133,16 @@ namespace CryptoApp
             {
                 if (openDlg.ShowDialog() != DialogResult.OK) return;
 
+                // UÅ¼ywamy Path.GetFileName, by uzyskaÄ‡ nazwÄ™ pliku
                 saveDlg.FileName = $"output_{mode}_{Path.GetFileName(openDlg.FileName)}";
                 if (saveDlg.ShowDialog() != DialogResult.OK) return;
 
-                lblFileStatus.Text = $"{mode}owanie pliku... Czekaj...";
+                // Sprawdzenie, czy etykieta statusu pliku istnieje
+                if (lblFileStatus != null)
+                {
+                    lblFileStatus.Text = $"{mode}owanie pliku... Czekaj...";
+                }
+
                 string key = txtKey.Text;
 
                 try
@@ -105,32 +156,27 @@ namespace CryptoApp
                         await _currentCipher.DecryptFileAsync(openDlg.FileName, saveDlg.FileName, key);
                     }
 
-                    lblFileStatus.Text = $"{mode}owanie pliku zakoñczone pomyœlnie!";
+                    if (lblFileStatus != null)
+                    {
+                        lblFileStatus.Text = $"{mode}owanie pliku zakoÅ„czone pomyÅ›lnie!";
+                    }
                 }
                 catch (ArgumentException ex)
                 {
-                    lblFileStatus.Text = "B³¹d klucza!";
-                    MessageBox.Show(ex.Message, "B³¹d klucza", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    if (lblFileStatus != null) lblFileStatus.Text = "BÅ‚Ä…d klucza!";
+                    MessageBox.Show(ex.Message, "BÅ‚Ä…d klucza", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
                 catch (Exception ex)
                 {
-                    lblFileStatus.Text = "Wyst¹pi³ b³¹d podczas operacji na pliku.";
-                    MessageBox.Show($"B³¹d: {ex.Message}", "B³¹d", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    if (lblFileStatus != null) lblFileStatus.Text = "WystÄ…piÅ‚ bÅ‚Ä…d podczas operacji na pliku.";
+                    MessageBox.Show($"BÅ‚Ä…d: {ex.Message}", "BÅ‚Ä…d", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
         }
 
-        private void textBox1_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void textBox2_TextChanged(object sender, EventArgs e)
-        {
-
-        }
+        // Puste metody sÄ… bezpieczne do usuniÄ™cia, ale jeÅ›li Projektant je wygenerowaÅ‚, 
+        // to powinny zostaÄ‡, albo musisz sprawdziÄ‡, czy nie sÄ… gdzieÅ› podpiÄ™te.
+        private void textBox1_TextChanged(object sender, EventArgs e) { }
+        private void textBox2_TextChanged(object sender, EventArgs e) { }
     }
-
-    // Dodatkowy enum dla czytelnoœci kodu
-    public enum OperationMode { Encrypt, Decrypt }
 }
