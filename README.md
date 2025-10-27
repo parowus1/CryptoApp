@@ -28,7 +28,7 @@ Wskazówki dla Klucza:
 - Logika Plikowa: Operacje na plikach (EncryptFileAsync, DecryptFileAsync) zostały zaktualizowane, aby dynamicznie wywoływać metody aktualnie wybranego szyfru (_currentCipher).
 - Wskazówki dla Klucza: Zaktualizowano metodę CmbAlgorithms_SelectedIndexChanged, aby dostosować sugerowany tekst klucza (txtKey.Text) dla Szyfru z Kluczem Bieżącym, informując użytkownika o wymaganym formacie.
 
-## [1.3.0] - 2025-10-27
+## [1.2.0] - 2025-10-27
 ### Dodane
 Nowy Algorytm Kryptograficzny:
 - Wprowadzono klasę AESCipher (Advanced Encryption Standard, AES-256), stanowiącą czwarty algorytm implementujący ICipher.
