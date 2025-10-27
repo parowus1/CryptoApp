@@ -19,6 +19,7 @@ namespace CryptoApp
         {
             InitializeComponent();
 
+            _algorithms.Add(new AESCipher());
             _algorithms.Add(new RunningKeyCipher());
             _algorithms.Add(new VigenereCipher());
             _algorithms.Add(new CaesarCipher());
@@ -40,7 +41,7 @@ namespace CryptoApp
 
             if (txtKey != null)
             {
-                txtKey.Text = "DŁUGI KLUCZ O DŁUGOŚCI WIADOMOŚCI";
+                txtKey.Text = "SuperBezpieczneHaslo123";
             }
             if (lblCurrentCipher != null)
             {
@@ -77,6 +78,10 @@ namespace CryptoApp
                     else if (_currentCipher.Name.Contains("Bieżącym")) 
                     {
                         txtKey.Text = "DŁUGI KLUCZ O DŁUGOŚCI WIADOMOŚCI";
+                    }
+                    else if (_currentCipher.Name.Contains("AES")) 
+                    {
+                        txtKey.Text = "SuperBezpieczneHaslo123";
                     }
                 }
             }
