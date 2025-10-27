@@ -35,6 +35,6 @@ Nowy Algorytm Kryptograficzny:
 - Implementacja Tekstowa: Używa trybu AES-256 GCM do szyfrowania tekstu, haszując klucz użytkownika za pomocą SHA256 i kodując wynik w Base64 (zawiera IV, Tag i szyfrogram).
 - Implementacja Plikowa (Strumieniowa): Wprowadzono szyfrowanie bajtowe dla plików dowolnego typu z użyciem AesCryptoServiceProvider w trybie CBC. Pliki są przetwarzane strumieniowo (CryptoStream), a Wektor Inicjujący (IV) jest zapisywany na początku zaszyfrowanego pliku.
 
-## Zmienione
+### Zmienione
 - Architektura Kryptograficzna: Projekt przeszedł z wyłącznie szyfrów znakowych na architekturę obsługującą zarówno algorytmy znakowe (Cezar, Vigenère, Bieżący Klucz) jak i bajtowe/strumieniowe (AES).
 - Inicjalizacja: Zaktualizowano MainForm.cs o nowy algorytm AES, ustawiając go jako domyślny.
