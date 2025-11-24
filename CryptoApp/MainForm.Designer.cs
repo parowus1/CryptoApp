@@ -40,6 +40,7 @@
             btnDecryptText = new Button();
             btnEncryptText = new Button();
             cmbAlgorithms = new ComboBox();
+            btnGenerateKeys = new Button();
             SuspendLayout();
             // 
             // txtPlainText
@@ -159,11 +160,22 @@
             cmbAlgorithms.Tag = "lblCurrentCipher";
             cmbAlgorithms.Click += CmbAlgorithms_SelectedIndexChanged;
             // 
+            // btnGenerateKeys
+            // 
+            btnGenerateKeys.Location = new Point(526, 156);
+            btnGenerateKeys.Name = "btnGenerateKeys";
+            btnGenerateKeys.Size = new Size(105, 27);
+            btnGenerateKeys.TabIndex = 16;
+            btnGenerateKeys.Text = "Generuj klucze";
+            btnGenerateKeys.UseVisualStyleBackColor = true;
+            btnGenerateKeys.Click += BtnGenerateKeys_Click;
+            // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(700, 385);
+            Controls.Add(btnGenerateKeys);
             Controls.Add(lblKey);
             Controls.Add(txtKey);
             Controls.Add(btnDecryptText);
@@ -198,5 +210,6 @@
         private Button btnEncryptText;
         private Label lblCurrentCipher;
         private ComboBox cmbAlgorithms;
+        private Button btnGenerateKeys;
     }
 }

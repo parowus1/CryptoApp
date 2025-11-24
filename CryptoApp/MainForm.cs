@@ -19,6 +19,7 @@ namespace CryptoApp
         {
             InitializeComponent();
 
+            _algorithms.Add(new RSACipher());
             _algorithms.Add(new AESCipher());
             _algorithms.Add(new RunningKeyCipher());
             _algorithms.Add(new VigenereCipher());
@@ -60,6 +61,12 @@ namespace CryptoApp
             {
                 _currentCipher = selectedCipher;
 
+                bool isRsa = _currentCipher.Name.Contains("RSA");
+                if (btnGenerateKeys != null) 
+                {
+                    btnGenerateKeys.Visible = isRsa;
+                }
+
                 if (lblCurrentCipher != null)
                 {
                     lblCurrentCipher.Text = $"Aktywny Algorytm: {_currentCipher.Name}";
@@ -75,11 +82,15 @@ namespace CryptoApp
                     {
                         txtKey.Text = "SECRET";
                     }
-                    else if (_currentCipher.Name.Contains("Bieżącym")) 
+                    else if (_currentCipher.Name.Contains("Bieżącym"))
                     {
                         txtKey.Text = "DŁUGI KLUCZ O DŁUGOŚCI WIADOMOŚCI";
                     }
-                    else if (_currentCipher.Name.Contains("AES")) 
+                    if (isRsa) // NOWA OBSŁUGA
+                    {
+                        txtKey.Text = "KLUCZ PUBLICZNY lub PRYWATNY (XML)";
+                    }
+                    else if (_currentCipher.Name.Contains("AES"))
                     {
                         txtKey.Text = "SuperBezpieczneHaslo123";
                     }
@@ -185,9 +196,49 @@ namespace CryptoApp
             }
         }
 
+        private void BtnGenerateKeys_Click(object sender, EventArgs e)
+        {
+            if (_currentCipher.Name.Contains("RSA"))
+            {
+                try
+                {
+                    var (publicKey, privateKey) = RSACipher.GenerateKeys();
+
+                    // Krok 1: Wyświetlenie kluczy i instrukcja
+                    MessageBox.Show(
+                        "Klucze RSA wygenerowane pomyślnie!\n\n" +
+                        "Klucz Publiczny (do szyfrowania) został skopiowany do głównego pola Klucza.\n\n" +
+                        "Klucz Prywatny (do deszyfrowania) został skopiowany do schowka. NIE UDOSTĘPNIAJ GO!",
+                        "Generowanie Kluczy RSA",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Information
+                    );
+
+                    // Krok 2: Ustawienie klucza publicznego w polu Klucza
+                    txtKey.Text = publicKey;
+
+                    // Krok 3: Skopiowanie klucza prywatnego do schowka (bezpieczniejsze niż wyświetlanie)
+                    Clipboard.SetText(privateKey);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Błąd podczas generowania kluczy RSA: {ex.Message}", "Błąd RSA", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+            else
+            {
+                MessageBox.Show("Funkcja generowania kluczy dotyczy tylko Szyfru RSA.", "Informacja", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+        }
+
         // Puste metody są bezpieczne do usunięcia, ale jeśli Projektant je wygenerował, 
         // to powinny zostać, albo musisz sprawdzić, czy nie są gdzieś podpięte.
         private void textBox1_TextChanged(object sender, EventArgs e) { }
         private void textBox2_TextChanged(object sender, EventArgs e) { }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
