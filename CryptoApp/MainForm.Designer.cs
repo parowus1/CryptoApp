@@ -41,6 +41,7 @@
             btnEncryptText = new Button();
             cmbAlgorithms = new ComboBox();
             btnGenerateKeys = new Button();
+            btnShowLogs = new Button();
             SuspendLayout();
             // 
             // txtPlainText
@@ -170,11 +171,22 @@
             btnGenerateKeys.UseVisualStyleBackColor = true;
             btnGenerateKeys.Click += BtnGenerateKeys_Click;
             // 
+            // btnShowLogs
+            // 
+            btnShowLogs.Location = new Point(612, 343);
+            btnShowLogs.Name = "btnShowLogs";
+            btnShowLogs.Size = new Size(76, 23);
+            btnShowLogs.TabIndex = 17;
+            btnShowLogs.Text = "Pokaż logi";
+            btnShowLogs.UseVisualStyleBackColor = true;
+            btnShowLogs.Click += BtnShowLogs_Click;
+            // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(700, 385);
+            Controls.Add(btnShowLogs);
             Controls.Add(btnGenerateKeys);
             Controls.Add(lblKey);
             Controls.Add(txtKey);
@@ -211,5 +223,6 @@
         private Label lblCurrentCipher;
         private ComboBox cmbAlgorithms;
         private Button btnGenerateKeys;
+        private Button btnShowLogs;
     }
 }

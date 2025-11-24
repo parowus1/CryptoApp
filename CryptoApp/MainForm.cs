@@ -12,6 +12,7 @@ namespace CryptoApp
     {
         private readonly List<ICipher> _algorithms = new List<ICipher>();
         private ICipher? _currentCipher;
+        private LogWindow logWindow;
 
         public enum OperationMode { Encrypt, Decrypt }
 
@@ -42,7 +43,7 @@ namespace CryptoApp
 
             if (txtKey != null)
             {
-                txtKey.Text = "SuperBezpieczneHaslo123";
+                txtKey.Text = "KLUCZ PUBLICZNY lub PRYWATNY (XML)";
             }
             if (lblCurrentCipher != null)
             {
@@ -86,7 +87,7 @@ namespace CryptoApp
                     {
                         txtKey.Text = "DŁUGI KLUCZ O DŁUGOŚCI WIADOMOŚCI";
                     }
-                    if (isRsa) // NOWA OBSŁUGA
+                    else if (isRsa) 
                     {
                         txtKey.Text = "KLUCZ PUBLICZNY lub PRYWATNY (XML)";
                     }
@@ -101,38 +102,48 @@ namespace CryptoApp
         // --- Obsługa szyfrowania/deszyfrowania tekstu ---
         private void btnEncryptText_Click(object sender, EventArgs e)
         {
+            if (logWindow != null) logWindow.RefreshLogs();
+
+            string key = txtKey.Text;
             try
             {
                 string plainText = txtPlainText.Text;
-                string key = txtKey.Text;
-
                 txtCipherText.Text = _currentCipher.EncryptText(plainText, key);
+
+                LogOperation("EncryptText", true, "Tekst zaszyfrowany pomyślnie.", key);
             }
             catch (ArgumentException ex)
             {
+                LogOperation("EncryptText", false, $"Błąd klucza: {ex.Message}", key);
                 MessageBox.Show(ex.Message, "Błąd klucza", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
             catch (Exception ex)
             {
+                LogOperation("EncryptText", false, $"Wystąpił nieznany błąd: {ex.Message}", key);
                 MessageBox.Show($"Wystąpił błąd: {ex.Message}", "Błąd", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
         private void btnDecryptText_Click(object sender, EventArgs e)
         {
+            if (logWindow != null) logWindow.RefreshLogs();
+
+            string key = txtKey.Text;
             try
             {
                 string cipherText = txtCipherText.Text;
-                string key = txtKey.Text;
-
                 txtPlainText.Text = _currentCipher.DecryptText(cipherText, key);
+
+                LogOperation("DecryptText", true, "Tekst odszyfrowany pomyślnie.", key);
             }
             catch (ArgumentException ex)
             {
+                LogOperation("DecryptText", false, $"Błąd klucza: {ex.Message}", key);
                 MessageBox.Show(ex.Message, "Błąd klucza", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
             catch (Exception ex)
             {
+                LogOperation("DecryptText", false, $"Wystąpił nieznany błąd: {ex.Message}", key);
                 MessageBox.Show($"Wystąpił błąd: {ex.Message}", "Błąd", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
@@ -204,7 +215,6 @@ namespace CryptoApp
                 {
                     var (publicKey, privateKey) = RSACipher.GenerateKeys();
 
-                    // Krok 1: Wyświetlenie kluczy i instrukcja
                     MessageBox.Show(
                         "Klucze RSA wygenerowane pomyślnie!\n\n" +
                         "Klucz Publiczny (do szyfrowania) został skopiowany do głównego pola Klucza.\n\n" +
@@ -214,14 +224,14 @@ namespace CryptoApp
                         MessageBoxIcon.Information
                     );
 
-                    // Krok 2: Ustawienie klucza publicznego w polu Klucza
                     txtKey.Text = publicKey;
 
-                    // Krok 3: Skopiowanie klucza prywatnego do schowka (bezpieczniejsze niż wyświetlanie)
                     Clipboard.SetText(privateKey);
+                    LogOperation("GenerateKeys", true, "Wygenerowano nową parę kluczy RSA-2048.", "Klucz Prywatny w Schowku");
                 }
                 catch (Exception ex)
                 {
+                    LogOperation("GenerateKeys", false, $"Błąd: {ex.Message}", "N/A");
                     MessageBox.Show($"Błąd podczas generowania kluczy RSA: {ex.Message}", "Błąd RSA", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
@@ -231,8 +241,27 @@ namespace CryptoApp
             }
         }
 
-        // Puste metody są bezpieczne do usunięcia, ale jeśli Projektant je wygenerował, 
-        // to powinny zostać, albo musisz sprawdzić, czy nie są gdzieś podpięte.
+        private void LogOperation(string operation, bool success, string message, string key = "")
+        {
+            string status = success ? "SUCCESS" : "ERROR";
+            string algorithmName = _currentCipher?.Name ?? "N/A";
+
+            LogManager.AddLog(algorithmName, operation, message, status, key);
+
+        }
+
+        private void BtnShowLogs_Click(object sender, EventArgs e)
+        {
+            if (logWindow == null || logWindow.IsDisposed)
+            {
+                logWindow = new LogWindow();
+                logWindow.Show();
+            }
+            else
+            {
+                logWindow.BringToFront();
+            }
+        }
         private void textBox1_TextChanged(object sender, EventArgs e) { }
         private void textBox2_TextChanged(object sender, EventArgs e) { }
 
