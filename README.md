@@ -27,3 +27,14 @@ Wskazówki dla Klucza:
 - Architektura MainForm.cs: Konstruktor został zmodyfikowany w celu inicjalizacji i powiązania listy algorytmów (_algorithms) z nową kontrolką cmbAlgorithms.
 - Logika Plikowa: Operacje na plikach (EncryptFileAsync, DecryptFileAsync) zostały zaktualizowane, aby dynamicznie wywoływać metody aktualnie wybranego szyfru (_currentCipher).
 - Wskazówki dla Klucza: Zaktualizowano metodę CmbAlgorithms_SelectedIndexChanged, aby dostosować sugerowany tekst klucza (txtKey.Text) dla Szyfru z Kluczem Bieżącym, informując użytkownika o wymaganym formacie.
+
+## [1.2.0] - 2025-10-27
+### Dodane
+Nowy Algorytm Kryptograficzny:
+- Wprowadzono klasę AESCipher (Advanced Encryption Standard, AES-256), stanowiącą czwarty algorytm implementujący ICipher.
+- Implementacja Tekstowa: Używa trybu AES-256 GCM do szyfrowania tekstu, haszując klucz użytkownika za pomocą SHA256 i kodując wynik w Base64 (zawiera IV, Tag i szyfrogram).
+- Implementacja Plikowa (Strumieniowa): Wprowadzono szyfrowanie bajtowe dla plików dowolnego typu z użyciem AesCryptoServiceProvider w trybie CBC. Pliki są przetwarzane strumieniowo (CryptoStream), a Wektor Inicjujący (IV) jest zapisywany na początku zaszyfrowanego pliku.
+
+### Zmienione
+- Architektura Kryptograficzna: Projekt przeszedł z wyłącznie szyfrów znakowych na architekturę obsługującą zarówno algorytmy znakowe (Cezar, Vigenère, Bieżący Klucz) jak i bajtowe/strumieniowe (AES).
+- Inicjalizacja: Zaktualizowano MainForm.cs o nowy algorytm AES, ustawiając go jako domyślny.
