@@ -38,3 +38,16 @@ Nowy Algorytm Kryptograficzny:
 ### Zmienione
 - Architektura Kryptograficzna: Projekt przeszedł z wyłącznie szyfrów znakowych na architekturę obsługującą zarówno algorytmy znakowe (Cezar, Vigenère, Bieżący Klucz) jak i bajtowe/strumieniowe (AES).
 - Inicjalizacja: Zaktualizowano MainForm.cs o nowy algorytm AES, ustawiając go jako domyślny.
+
+## [1.3.0] - 2025-11-24
+### Dodane
+Asymetryczny Algorytm Kryptograficzny:
+- Wprowadzono klasę RSACipher (RSA-2048), jako piąty i pierwszy algorytm klucza publicznego implementujący ICipher.
+- Generowanie Kluczy: Dodano funkcję GenerateKeys() oraz przycisk w UI do generowania par kluczy publiczny/prywatny (w formacie XML).
+- Implementacja RSA: Szyfrowanie i deszyfrowanie wykorzystuje wbudowaną klasę System.Security.Cryptography.RSA z bezpiecznym schematem wypełnienia OAEP (SHA-256).
+- Zarządzanie Kluczami: Klucz publiczny jest ustawiany automatycznie w polu txtKey po generacji, a klucz prywatny kopiowany do schowka.
+- Nowa Kontrolka UI: Dodano przycisk btnGenerateKeys do generowania par kluczy RSA.
+
+### Zmienione
+- Architektura Kryptograficzna: Projekt został rozszerzony o algorytmy asymetryczne, zmieniając koncepcję "klucza" w interfejsie UI (klucz RSA jest długim ciągiem XML).
+- UI Dynamiczne: Zaktualizowano CmbAlgorithms_SelectedIndexChanged, aby ukrywać/pokazywać przycisk generowania kluczy w zależności od wybranego algorytmu.
