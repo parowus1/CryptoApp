@@ -51,3 +51,10 @@ Asymetryczny Algorytm Kryptograficzny:
 ### Zmienione
 - Architektura Kryptograficzna: Projekt został rozszerzony o algorytmy asymetryczne, zmieniając koncepcję "klucza" w interfejsie UI (klucz RSA jest długim ciągiem XML).
 - UI Dynamiczne: Zaktualizowano CmbAlgorithms_SelectedIndexChanged, aby ukrywać/pokazywać przycisk generowania kluczy w zależności od wybranego algorytmu.
+
+## [1.4.0] - 2025-11-25
+### Dodane
+- System Logowania i Analizy: Wprowadzono LogManager i okno LogWindow.cs do rejestrowania i wyświetlania wszystkich operacji kryptograficznych.- Generowanie Kluczy: Dodano funkcję GenerateKeys() oraz przycisk w UI do generowania par kluczy publiczny/prywatny (w formacie XML).
+- Analiza Krok po Kroku: Dodano funkcję wyświetlającą szczegółowy raport (algorytm, status, klucz) dla ostatniej wykonanej operacji.
+- Rejestracja Zdarzeń: Rejestrowanie statusu (SUCCESS/ERROR) po każdej próbie szyfrowania/deszyfrowania tekstu i plików, oraz generowania kluczy.
+
